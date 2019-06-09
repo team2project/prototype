@@ -24,10 +24,10 @@ public class CSVReader : MonoBehaviour
     //Encoding encoding;
 
     //ゲッター
-    /*public List<string[]> GetCsvDatas(List<string[]> csvDatas)
+    public BaseWeather[] GetBaseWeather(BaseWeather[] baseWeather)
     {
-        return this.csvDatas;
-    }*/
+        return baseWeather;
+    }
 
     //BaseWeather [] baseWeather;
     //BaseWeather weatehr;
@@ -59,32 +59,6 @@ public class CSVReader : MonoBehaviour
         ShowBaseWeatherData(OsakaWeather, "大阪府");
         ShowBaseWeatherData(SapporoWeather, "札幌市");
         ShowBaseWeatherData(YokohamaWeather, "横浜市");
-
-
-        //ShowCSVFile(Hakodate,"函館市");
-        /*ShowCSVFile(Tokyo, "東京都");
-        ShowCSVFile(Osaka, "大阪府");
-        ShowCSVFile(Sapporo, "札幌市");
-        ShowCSVFile(Yokohama, "横浜市");*/
-
-        /* baseWeather = new BaseWeather[7];
-
-         //baseWeather = new BaseWeather { new BaseWeather(csvDatas[1][0],csvDatas[1][1]) };
-
-         for (int i = 0; i < baseWeather.Length; i++)
-         {
-             baseWeather[i] = new BaseWeather(Hakodate[i+1][0], Hakodate[i+1][1]);
-         }
-
-         for (int i = 0; i < baseWeather.Length; i++)
-         {
-             Debug.Log("天気のリスト:" + baseWeather[i].GetDate() + "," + baseWeather[i].GetWeather());
-         }
-         */
-        /*for (int i = 1; i < csvDatas.Count; i++)
-        {
-            baseWeather[i - 1] = csvDatas[i][0];
-        }*/
     }
 
     /*public void SetCSVData()

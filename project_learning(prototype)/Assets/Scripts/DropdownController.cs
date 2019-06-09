@@ -24,11 +24,6 @@ public class DropdownController : MonoBehaviour
     private int days;                      //現在の月の日数
     private DateTime now;
 
-    //public Dropdown dropdown;
-
-    //BaseWeather baseWeather;
-    //private DateTime test = new DateTime(2019,7,30);
-
     // Start is called before the first frame update
     void Start()
     {
