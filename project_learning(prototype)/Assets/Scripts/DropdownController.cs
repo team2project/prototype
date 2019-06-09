@@ -24,6 +24,8 @@ public class DropdownController : MonoBehaviour
     private int days;                      //現在の月の日数
     private DateTime now;
 
+    //public Dropdown dropdown;
+
     //BaseWeather baseWeather;
     //private DateTime test = new DateTime(2019,7,30);
 
@@ -73,7 +75,7 @@ public class DropdownController : MonoBehaviour
     }
 
     //現在の年月日をそれぞれの変数に代入して初期化する
-    private void SetDateValue(int year, int month, int day, int days, DateTime dateTime)
+    public void SetDateValue(int year, int month, int day, int days, DateTime dateTime)
     {
         year = dateTime.Year;
         month = dateTime.Month;
@@ -84,7 +86,7 @@ public class DropdownController : MonoBehaviour
     }
 
     //日付のドロップダウンに現在の日付から1週間分の日付を設定
-    private void SetDateDropdown(int month, int day, int days)
+    public void SetDateDropdown(int month, int day, int days)
     {
         if (DateDropdown)
         {
@@ -115,7 +117,7 @@ public class DropdownController : MonoBehaviour
     }
 
     //時間のドロップダウンに1:00～24:00を設定
-    private void SetTimeDropdown()
+    public void SetTimeDropdown()
     {
         if (TimeDropdown)
         {
@@ -171,4 +173,23 @@ public class DropdownController : MonoBehaviour
         }
     }
 
+    /*public void OnFallAmountChanged()
+    {
+        ParticleSystem.EmissionModule emission = rainParticle.emission;
+        if (dropdown.value == 0)
+        {
+            emission.rateOverTime = 50;
+        }
+        //東京の時
+        else if (dropdown.value == 1)
+        {
+            emission.rateOverTime = 200;
+        }
+        //大阪の時
+        else if (dropdown.value == 2)
+        {
+            emission.rateOverTime = 500;
+        }
+
+    }*/
 }
