@@ -33,6 +33,39 @@ public class WeatherController
         //emission.rateOverTime = 500;
     }
 
+    /*public void RainWeather(ParticleSystem rainParticle, ParticleSystem snowParticle)
+    {
+        rainParticle.Play();
+        snowParticle.Stop();
+        snowParticle.Clear();
+    }
+
+    public void SnowWeather(ParticleSystem rainParticle, ParticleSystem snowParticle)
+    {
+        snowParticle.Play();
+        rainParticle.Stop();
+        rainParticle.Clear();
+    }
+
+    public void OtherWeather(ParticleSystem rainParticle, ParticleSystem snowParticle)
+    {
+        rainParticle.Stop();
+        rainParticle.Clear();
+        snowParticle.Stop();
+        snowParticle.Clear();
+    }
+
+    public void changeWeather(ParticleSystem rainParticle, ParticleSystem snowParticle, string weather)
+    {
+        if (weather.Equals("雨"))
+            RainWeather(rainParticle, snowParticle);
+        else if (weather.Equals("雪"))
+            SnowWeather(rainParticle, snowParticle);
+        else
+            OtherWeather(rainParticle, snowParticle);
+    }*/
+
+
     // Update is called once per frame
     /*void Update()
     {

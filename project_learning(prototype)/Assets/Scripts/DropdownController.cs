@@ -44,7 +44,7 @@ public class DropdownController : MonoBehaviour
         csvReader = new CSVReader();
         weatherController = new WeatherController();
         year = 2019;
-        todayDate = GetDateElement(GetDate(), 0);
+        todayDate = GetDateElement(GetDates(), 0);
         cityName = cityNames[0];
 
         csvReader.ShowBaseWeatherData(csvReader.GetHakodateWeather(), "函館市");
@@ -55,17 +55,51 @@ public class DropdownController : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
-        
-    }
+        if(cityName.Equals("Hakodate"))
+        {
+            for (int i = 0; i < csvReader.GetHakodateWeather().Length; i++)
+            {
+                if (todayDate.Equals(csvReader.GetHakodateWeather()[i].GetDate()))
+                {
+                    if (csvReader.GetHakodateWeather()[i].GetWeather().Equals("雨"))
+                    {
+                        weatherController.ChangeRainStrength(csvReader.GetHakodateWeather()[i].GetFallAmount(), rainParticle);
+                    }
+                    //else if (csvReader.GetHakodateWeather()[i].GetWeather().Equals("雪"))
+                    //{
+
+                    //}
+
+                    break;
+                }
+            }
+        }
+        else if(cityName == "Tokyo")
+        {
+
+        }
+        else if (cityName == "Osaka")
+        {
+
+        }
+        else if (cityName == "Sapporo")
+        {
+
+        }
+        else if (cityName == "yokohama")
+        {
+
+        }
+    }*/
 
     public int GetYear()
     {
         return this.year;
     } 
 
-    public List<string> GetDate()
+    public List<string> GetDates()
     {
         return this.Date;
     }
@@ -125,7 +159,7 @@ public class DropdownController : MonoBehaviour
             for (int i = 0; i < 7; i++)
             {
                 DateList.Add(month.ToString() + "月" + day.ToString() + "日");
-                GetDate().Add(GetYear().ToString() + "/" + month.ToString() + "/" + day.ToString());
+                GetDates().Add(GetYear().ToString() + "/" + month.ToString() + "/" + day.ToString());
                 //Debug.Log(days);
                 //もし日付が月の最終日を超えたら日付を1日にして月に1を足して次の月にしている
                 if (day + i >= days)
@@ -212,31 +246,31 @@ public class DropdownController : MonoBehaviour
     {
         if (DateDropdown.value == 0)
         {
-            todayDate = GetDateElement(GetDate(), 0);
+            todayDate = GetDateElement(GetDates(), 0);
         }
         else if (DateDropdown.value == 1)
         {
-            todayDate = GetDateElement(GetDate(), 1);
+            todayDate = GetDateElement(GetDates(), 1);
         }
         else if (DateDropdown.value == 2)
         {
-            todayDate = GetDateElement(GetDate(), 2);
+            todayDate = GetDateElement(GetDates(), 2);
         }
         else if (DateDropdown.value == 3)
         {
-            todayDate = GetDateElement(GetDate(), 3);
+            todayDate = GetDateElement(GetDates(), 3);
         }
         else if (DateDropdown.value == 4)
         {
-            todayDate = GetDateElement(GetDate(), 4);
+            todayDate = GetDateElement(GetDates(), 4);
         }
         else if (DateDropdown.value == 5)
         {
-            todayDate = GetDateElement(GetDate(), 5);
+            todayDate = GetDateElement(GetDates(), 5);
         }
         else if (DateDropdown.value == 6)
         {
-            todayDate = GetDateElement(GetDate(), 6);
+            todayDate = GetDateElement(GetDates(), 6);
         }
     }
 }
