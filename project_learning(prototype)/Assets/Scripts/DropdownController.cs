@@ -18,11 +18,13 @@ public class DropdownController : MonoBehaviour
     public GameObject Sapporo;
     public GameObject Yokohama;
 
+    //private int dataNum = 7;               //扱うデータの数
     private int year;                      //現在の年
     private int month;                     //現在の月
     private int day;                       //現在の日
     private int days;                      //現在の月の日数
     private DateTime now;
+    private CSVReader CSVReader;
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +35,13 @@ public class DropdownController : MonoBehaviour
         //SetDateValue(year, month, day, days, test);
         rainParticle.Stop();
         snowParticle.Stop();
+        CSVReader = new CSVReader();
+        
+        CSVReader.ShowBaseWeatherData(CSVReader.GetHakodateWeather(), "函館市");
+        CSVReader.ShowBaseWeatherData(CSVReader.GetTokyoWeather(), "東京都");
+        CSVReader.ShowBaseWeatherData(CSVReader.GetOsakaWeather(), "大阪府");
+        CSVReader.ShowBaseWeatherData(CSVReader.GetSapporoWeather(), "札幌市");
+        CSVReader.ShowBaseWeatherData(CSVReader.GetYokohamaWeather(), "横浜市");
     }
 
     // Update is called once per frame
@@ -91,7 +100,7 @@ public class DropdownController : MonoBehaviour
             for (int i = 0; i < 7; i++)
             {
                 DateList.Add(month.ToString() + "月" + day.ToString() + "日");
-                Debug.Log(days);
+                //Debug.Log(days);
                 //もし日付が月の最終日を超えたら日付を1日にして月に1を足して次の月にしている
                 if (day + i >= days)
                 {

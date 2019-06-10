@@ -4,7 +4,8 @@ using UnityEngine;
 using System.IO;
 //using System.Text;
 
-public class CSVReader : MonoBehaviour
+//public class CSVReader : MonoBehaviour
+public class CSVReader
 {
     //TextAsset csvFile;  //csvファイル
     private int dataNum = 7;  //csvファイルのデータの数
@@ -29,24 +30,82 @@ public class CSVReader : MonoBehaviour
         return baseWeather;
     }
 
-    //BaseWeather [] baseWeather;
-    //BaseWeather weatehr;
-
-    // Start is called before the first frame update
-    void Start()
+    /*public void setBaseWeather(BaseWeather[] baseWeather)
     {
-        //this.encoding = Encoding.GetEncoding("utf-8");
+        
+    }*/
+
+    /*public void SetBaseWeather(BaseWeather[] weather, int dataNum)
+    {
+        weather = new BaseWeather[dataNum];
+    }*/
+
+    //コンストラクタ
+    public CSVReader()
+    {
         HakodateWeather = new BaseWeather[dataNum];
         TokyoWeather = new BaseWeather[dataNum];
         OsakaWeather = new BaseWeather[dataNum];
         SapporoWeather = new BaseWeather[dataNum];
         YokohamaWeather = new BaseWeather[dataNum];
 
-        Hakodate = CSVRead("Hakodate");
-        Tokyo = CSVRead("Tokyo");
-        Osaka = CSVRead("Osaka");
-        Sapporo = CSVRead("Sapporo");
-        Yokohama = CSVRead("Yokohama");
+        Hakodate = CSVRead("HakodateWeatherData");
+        Tokyo = CSVRead("TokyoWeatherData");
+        Osaka = CSVRead("OsakaWeatherData");
+        Sapporo = CSVRead("SapporoWeatherData");
+        Yokohama = CSVRead("YokohamaWeatherData");
+
+        HakodateWeather = SetBaseWeather(Hakodate);
+        TokyoWeather = SetBaseWeather(Tokyo);
+        OsakaWeather = SetBaseWeather(Osaka);
+        SapporoWeather = SetBaseWeather(Sapporo);
+        YokohamaWeather = SetBaseWeather(Yokohama);
+    }
+
+    public BaseWeather[] GetHakodateWeather()
+    {
+        return this.HakodateWeather;
+    }
+
+    public BaseWeather[] GetTokyoWeather()
+    {
+        return this.TokyoWeather;
+    }
+
+    public BaseWeather[] GetOsakaWeather()
+    {
+        return this.OsakaWeather;
+    }
+
+    public BaseWeather[] GetSapporoWeather()
+    {
+        return this.SapporoWeather;
+    }
+
+    public BaseWeather[] GetYokohamaWeather()
+    {
+        return this.YokohamaWeather;
+    }
+
+    //BaseWeather [] baseWeather;
+    //BaseWeather weatehr;
+
+    // Start is called before the first frame update
+    /*void Start()
+    {
+        //this.encoding = Encoding.GetEncoding("utf-8");
+
+        HakodateWeather = new BaseWeather[dataNum];
+        TokyoWeather = new BaseWeather[dataNum];
+        OsakaWeather = new BaseWeather[dataNum];
+        SapporoWeather = new BaseWeather[dataNum];
+        YokohamaWeather = new BaseWeather[dataNum];
+
+        Hakodate = CSVRead("HakodateWeatherData");
+        Tokyo = CSVRead("TokyoWeatherData");
+        Osaka = CSVRead("OsakaWeatherData");
+        Sapporo = CSVRead("SapporoWeatherData");
+        Yokohama = CSVRead("YokohamaWeatherData");
 
         HakodateWeather = SetBaseWeather(Hakodate);
         TokyoWeather = SetBaseWeather(Tokyo);
@@ -59,7 +118,7 @@ public class CSVReader : MonoBehaviour
         ShowBaseWeatherData(OsakaWeather, "大阪府");
         ShowBaseWeatherData(SapporoWeather, "札幌市");
         ShowBaseWeatherData(YokohamaWeather, "横浜市");
-    }
+    }*/
 
     /*public void SetCSVData()
     {
@@ -110,9 +169,10 @@ public class CSVReader : MonoBehaviour
 
     public void ShowBaseWeatherData(BaseWeather[] baseWeather, string cityName)
     {
+        Debug.Log(cityName + "のデータ");
+
         for (int i = 0; i < baseWeather.Length; i++)
         {
-            Debug.Log(cityName + "のデータ");
             Debug.Log("日付:" + baseWeather[i].GetDate() + ", 天気:" + baseWeather[i].GetWeather() + ", 降水量:" + baseWeather[i].GetFallAmount() + ", 風速:" + baseWeather[i].GetWindStrength());
         }
     }
