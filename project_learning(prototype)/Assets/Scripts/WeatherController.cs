@@ -15,11 +15,22 @@ public class WeatherController : MonoBehaviour
         //csvReader= new CSVReader();
     }
 
-    public void ChangeRainStrength(float fallAmount)
+    public void ChangeRainStrength(float rainStrength, ParticleSystem rainParticle)
     {
+        ParticleSystem.EmissionModule emission = rainParticle.emission;
+        
+        //emission.rateOverTimeで雨の強さを変える
+        emission.rateOverTime = 50;
 
+        //emission.rateOverTime = 200;
+        //emission.rateOverTime = 500;
     }
 
+    private float calculateRainStrength(float fallAmount)
+    {
+        //仮に設定(ここに降水量から雨の強さを決める式を定義する)
+        return fallAmount;
+    }
 
     // Update is called once per frame
     /*void Update()
