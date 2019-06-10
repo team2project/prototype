@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeatherController : MonoBehaviour
+//public class WeatherController : MonoBehaviour
+public class WeatherController
 {
     //private CSVReader csvReader;
     
@@ -10,9 +11,15 @@ public class WeatherController : MonoBehaviour
     //public ParticleSystem snowParticle;    //雪のParticleSystemを管理
 
     // Start is called before the first frame update
-    void Start()
+    /*void Start()
     {
         //csvReader= new CSVReader();
+    }*/
+
+    private float CalculateRateOverTime(float fallAmount)
+    {
+        //仮に設定(ここに降水量から雨の強さを決める式を定義する)
+        return fallAmount * 90;
     }
 
     public void ChangeRainStrength(float rainStrength, ParticleSystem rainParticle)
@@ -20,16 +27,10 @@ public class WeatherController : MonoBehaviour
         ParticleSystem.EmissionModule emission = rainParticle.emission;
         
         //emission.rateOverTimeで雨の強さを変える
-        emission.rateOverTime = 50;
+        emission.rateOverTime = CalculateRateOverTime(rainStrength);
 
         //emission.rateOverTime = 200;
         //emission.rateOverTime = 500;
-    }
-
-    private float calculateRainStrength(float fallAmount)
-    {
-        //仮に設定(ここに降水量から雨の強さを決める式を定義する)
-        return fallAmount;
     }
 
     // Update is called once per frame

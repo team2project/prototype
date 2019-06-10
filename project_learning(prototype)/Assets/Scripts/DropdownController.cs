@@ -19,24 +19,34 @@ public class DropdownController : MonoBehaviour
     public GameObject Yokohama;
 
     //private int dataNum = 7;               //扱うデータの数
-    private int year;                      //現在の年
-    private int month;                     //現在の月
-    private int day;                       //現在の日
-    private int days;                      //現在の月の日数
+    private int Dateyear;                    //DateDropdownを決める際に使用する年
+    private int Datemonth;                   //DateDropdownを決める際に使用する月
+    private int Dateday;                     //DateDropdownを決める際に使用する日
+    private int days;                        //現在の月の日数
     private DateTime now;
     private CSVReader csvReader;
+    private WeatherController weatherController;
+    private int year;
+    private string todayDate;
+    private string cityName;
+    private List<string> Date = new List<string>();
+    private string[] cityNames = {"Hakodate","Tokyo", "Osaka", "Sapporo", "Yokohama"};
 
     // Start is called before the first frame update
     void Start()
     {
         now = DateTime.Now;
-        SetDateValue(year, month, day, days, now);
+        SetDateValue(Dateyear, Datemonth, Dateday, days, now);
         SetTimeDropdown();
         //SetDateValue(year, month, day, days, test);
         rainParticle.Stop();
         snowParticle.Stop();
         csvReader = new CSVReader();
-        
+        weatherController = new WeatherController();
+        year = 2019;
+        todayDate = GetDateElement(GetDate(), 0);
+        cityName = cityNames[0];
+
         csvReader.ShowBaseWeatherData(csvReader.GetHakodateWeather(), "函館市");
         csvReader.ShowBaseWeatherData(csvReader.GetTokyoWeather(), "東京都");
         csvReader.ShowBaseWeatherData(csvReader.GetOsakaWeather(), "大阪府");
@@ -45,10 +55,25 @@ public class DropdownController : MonoBehaviour
     }
 
     // Update is called once per frame
-    /*void Update()
+    void Update()
     {
         
-    }*/
+    }
+
+    public int GetYear()
+    {
+        return this.year;
+    } 
+
+    public List<string> GetDate()
+    {
+        return this.Date;
+    }
+
+    public string GetDateElement(List<string> Date, int i)
+    {
+        return Date[i];
+    }
 
     //WeatherDropdownで選択されている天気をフィールド上で動作させる
     public void OnWeatherChanged()
@@ -100,6 +125,7 @@ public class DropdownController : MonoBehaviour
             for (int i = 0; i < 7; i++)
             {
                 DateList.Add(month.ToString() + "月" + day.ToString() + "日");
+                GetDate().Add(GetYear().ToString() + "/" + month.ToString() + "/" + day.ToString());
                 //Debug.Log(days);
                 //もし日付が月の最終日を超えたら日付を1日にして月に1を足して次の月にしている
                 if (day + i >= days)
@@ -154,46 +180,63 @@ public class DropdownController : MonoBehaviour
         if (CityDropdown.value == 0)
         {
             ChangeCitySetActive(true, false, false, false, false);
+            cityName = cityNames[0];
         }
         //東京の時
         else if(CityDropdown.value == 1)
         {
             ChangeCitySetActive(false, true, false, false, false);
+            cityName = cityNames[1];
         }
         //大阪の時
         else if (CityDropdown.value == 2)
         {
             ChangeCitySetActive(false, false, true, false, false);
+            cityName = cityNames[2];
         }
         //札幌の時
         else if (CityDropdown.value == 3)
         {
             ChangeCitySetActive(false, false, false, true, false);
+            cityName = cityNames[3];
         }
         //横浜の時
         else if (CityDropdown.value == 4)
         {
             ChangeCitySetActive(false, false, false, false, true);
+            cityName = cityNames[4];
         }
     }
 
-    /*public void OnFallAmountChanged()
+    public void OnDateChanged()
     {
-        ParticleSystem.EmissionModule emission = rainParticle.emission;
-        if (dropdown.value == 0)
+        if (DateDropdown.value == 0)
         {
-            emission.rateOverTime = 50;
+            todayDate = GetDateElement(GetDate(), 0);
         }
-        //東京の時
-        else if (dropdown.value == 1)
+        else if (DateDropdown.value == 1)
         {
-            emission.rateOverTime = 200;
+            todayDate = GetDateElement(GetDate(), 1);
         }
-        //大阪の時
-        else if (dropdown.value == 2)
+        else if (DateDropdown.value == 2)
         {
-            emission.rateOverTime = 500;
+            todayDate = GetDateElement(GetDate(), 2);
         }
-
-    }*/
+        else if (DateDropdown.value == 3)
+        {
+            todayDate = GetDateElement(GetDate(), 3);
+        }
+        else if (DateDropdown.value == 4)
+        {
+            todayDate = GetDateElement(GetDate(), 4);
+        }
+        else if (DateDropdown.value == 5)
+        {
+            todayDate = GetDateElement(GetDate(), 5);
+        }
+        else if (DateDropdown.value == 6)
+        {
+            todayDate = GetDateElement(GetDate(), 6);
+        }
+    }
 }
