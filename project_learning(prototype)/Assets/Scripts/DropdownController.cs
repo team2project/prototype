@@ -18,14 +18,13 @@ public class DropdownController : MonoBehaviour
     public GameObject Sapporo;
     public GameObject Yokohama;
 
+    //private int dataNum = 7;               //扱うデータの数
     private int year;                      //現在の年
     private int month;                     //現在の月
     private int day;                       //現在の日
     private int days;                      //現在の月の日数
     private DateTime now;
-
-    //BaseWeather baseWeather;
-    //private DateTime test = new DateTime(2019,7,30);
+    private CSVReader CSVReader;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +35,13 @@ public class DropdownController : MonoBehaviour
         //SetDateValue(year, month, day, days, test);
         rainParticle.Stop();
         snowParticle.Stop();
+        CSVReader = new CSVReader();
+        
+        CSVReader.ShowBaseWeatherData(CSVReader.GetHakodateWeather(), "函館市");
+        CSVReader.ShowBaseWeatherData(CSVReader.GetTokyoWeather(), "東京都");
+        CSVReader.ShowBaseWeatherData(CSVReader.GetOsakaWeather(), "大阪府");
+        CSVReader.ShowBaseWeatherData(CSVReader.GetSapporoWeather(), "札幌市");
+        CSVReader.ShowBaseWeatherData(CSVReader.GetYokohamaWeather(), "横浜市");
     }
 
     // Update is called once per frame
@@ -73,7 +79,7 @@ public class DropdownController : MonoBehaviour
     }
 
     //現在の年月日をそれぞれの変数に代入して初期化する
-    private void SetDateValue(int year, int month, int day, int days, DateTime dateTime)
+    public void SetDateValue(int year, int month, int day, int days, DateTime dateTime)
     {
         year = dateTime.Year;
         month = dateTime.Month;
@@ -84,7 +90,7 @@ public class DropdownController : MonoBehaviour
     }
 
     //日付のドロップダウンに現在の日付から1週間分の日付を設定
-    private void SetDateDropdown(int month, int day, int days)
+    public void SetDateDropdown(int month, int day, int days)
     {
         if (DateDropdown)
         {
@@ -94,7 +100,7 @@ public class DropdownController : MonoBehaviour
             for (int i = 0; i < 7; i++)
             {
                 DateList.Add(month.ToString() + "月" + day.ToString() + "日");
-                Debug.Log(days);
+                //Debug.Log(days);
                 //もし日付が月の最終日を超えたら日付を1日にして月に1を足して次の月にしている
                 if (day + i >= days)
                 {
@@ -115,7 +121,7 @@ public class DropdownController : MonoBehaviour
     }
 
     //時間のドロップダウンに1:00～24:00を設定
-    private void SetTimeDropdown()
+    public void SetTimeDropdown()
     {
         if (TimeDropdown)
         {
@@ -171,4 +177,23 @@ public class DropdownController : MonoBehaviour
         }
     }
 
+    /*public void OnFallAmountChanged()
+    {
+        ParticleSystem.EmissionModule emission = rainParticle.emission;
+        if (dropdown.value == 0)
+        {
+            emission.rateOverTime = 50;
+        }
+        //東京の時
+        else if (dropdown.value == 1)
+        {
+            emission.rateOverTime = 200;
+        }
+        //大阪の時
+        else if (dropdown.value == 2)
+        {
+            emission.rateOverTime = 500;
+        }
+
+    }*/
 }
