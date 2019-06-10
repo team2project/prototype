@@ -24,7 +24,7 @@ public class DropdownController : MonoBehaviour
     private int day;                       //現在の日
     private int days;                      //現在の月の日数
     private DateTime now;
-    private CSVReader CSVReader;
+    private CSVReader csvReader;
 
     // Start is called before the first frame update
     void Start()
@@ -35,13 +35,13 @@ public class DropdownController : MonoBehaviour
         //SetDateValue(year, month, day, days, test);
         rainParticle.Stop();
         snowParticle.Stop();
-        CSVReader = new CSVReader();
+        csvReader = new CSVReader();
         
-        CSVReader.ShowBaseWeatherData(CSVReader.GetHakodateWeather(), "函館市");
-        CSVReader.ShowBaseWeatherData(CSVReader.GetTokyoWeather(), "東京都");
-        CSVReader.ShowBaseWeatherData(CSVReader.GetOsakaWeather(), "大阪府");
-        CSVReader.ShowBaseWeatherData(CSVReader.GetSapporoWeather(), "札幌市");
-        CSVReader.ShowBaseWeatherData(CSVReader.GetYokohamaWeather(), "横浜市");
+        csvReader.ShowBaseWeatherData(csvReader.GetHakodateWeather(), "函館市");
+        csvReader.ShowBaseWeatherData(csvReader.GetTokyoWeather(), "東京都");
+        csvReader.ShowBaseWeatherData(csvReader.GetOsakaWeather(), "大阪府");
+        csvReader.ShowBaseWeatherData(csvReader.GetSapporoWeather(), "札幌市");
+        csvReader.ShowBaseWeatherData(csvReader.GetYokohamaWeather(), "横浜市");
     }
 
     // Update is called once per frame
