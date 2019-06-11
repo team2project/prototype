@@ -28,12 +28,17 @@ public class WeatherController
         
         //emission.rateOverTimeで雨の強さを変える
         emission.rateOverTime = CalculateRateOverTime(rainStrength);
-
-        //emission.rateOverTime = 200;
-        //emission.rateOverTime = 500;
     }
 
-    /*public void RainWeather(ParticleSystem rainParticle, ParticleSystem snowParticle)
+    public void ChangeSnowStrength(float snowStrength, ParticleSystem snowParticle)
+    {
+        ParticleSystem.EmissionModule emission = snowParticle.emission;
+
+        //emission.rateOverTimeで雪の強さを変える
+        emission.rateOverTime = CalculateRateOverTime(snowStrength);
+    }
+
+    public void RainWeather(ParticleSystem rainParticle, ParticleSystem snowParticle)
     {
         rainParticle.Play();
         snowParticle.Stop();
@@ -55,7 +60,7 @@ public class WeatherController
         snowParticle.Clear();
     }
 
-    public void changeWeather(ParticleSystem rainParticle, ParticleSystem snowParticle, string weather)
+    /*public void changeWeather(ParticleSystem rainParticle, ParticleSystem snowParticle, string weather)
     {
         if (weather.Equals("雨"))
             RainWeather(rainParticle, snowParticle);

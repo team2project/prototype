@@ -26,8 +26,8 @@ public class DropdownController : MonoBehaviour
     private DateTime now;
     private CSVReader csvReader;
     private WeatherController weatherController;
-    private int year;
-    private string todayDate;
+    private int year = DateTime.Today.Year;
+    private string DropdownDate;
     private string cityName;
     private List<string> Date = new List<string>();
     private string[] cityNames = {"Hakodate","Tokyo", "Osaka", "Sapporo", "Yokohama"};
@@ -44,8 +44,10 @@ public class DropdownController : MonoBehaviour
         csvReader = new CSVReader();
         weatherController = new WeatherController();
         year = 2019;
-        todayDate = GetDateElement(GetDates(), 0);
+        DropdownDate = GetDateElement(GetDate(), 0);
         cityName = cityNames[0];
+
+        Debug.Log(GetDropdownDate());
 
         csvReader.ShowBaseWeatherData(csvReader.GetHakodateWeather(), "函館市");
         csvReader.ShowBaseWeatherData(csvReader.GetTokyoWeather(), "東京都");
@@ -99,7 +101,7 @@ public class DropdownController : MonoBehaviour
         return this.year;
     } 
 
-    public List<string> GetDates()
+    public List<string> GetDate()
     {
         return this.Date;
     }
@@ -109,7 +111,13 @@ public class DropdownController : MonoBehaviour
         return Date[i];
     }
 
+    public string GetDropdownDate()
+    {
+        return this.DropdownDate;
+    }
+
     //WeatherDropdownで選択されている天気をフィールド上で動作させる
+    //後で必要になるかも
     public void OnWeatherChanged()
     {
         //晴れの時
@@ -159,7 +167,7 @@ public class DropdownController : MonoBehaviour
             for (int i = 0; i < 7; i++)
             {
                 DateList.Add(month.ToString() + "月" + day.ToString() + "日");
-                GetDates().Add(GetYear().ToString() + "/" + month.ToString() + "/" + day.ToString());
+                GetDate().Add(GetYear().ToString() + "/" + month.ToString() + "/" + day.ToString());
                 //Debug.Log(days);
                 //もし日付が月の最終日を超えたら日付を1日にして月に1を足して次の月にしている
                 if (day + i >= days)
@@ -246,31 +254,104 @@ public class DropdownController : MonoBehaviour
     {
         if (DateDropdown.value == 0)
         {
-            todayDate = GetDateElement(GetDates(), 0);
+            DropdownDate = GetDateElement(GetDate(), 0);
         }
         else if (DateDropdown.value == 1)
         {
-            todayDate = GetDateElement(GetDates(), 1);
+            Debug.Log("OnDateChangedが起動しました");
+            DropdownDate = GetDateElement(GetDate(), 1);
         }
         else if (DateDropdown.value == 2)
         {
-            todayDate = GetDateElement(GetDates(), 2);
+            DropdownDate = GetDateElement(GetDate(), 2);
         }
         else if (DateDropdown.value == 3)
         {
-            todayDate = GetDateElement(GetDates(), 3);
+            DropdownDate = GetDateElement(GetDate(), 3);
         }
         else if (DateDropdown.value == 4)
         {
-            todayDate = GetDateElement(GetDates(), 4);
+            DropdownDate = GetDateElement(GetDate(), 4);
         }
         else if (DateDropdown.value == 5)
         {
-            todayDate = GetDateElement(GetDates(), 5);
+            DropdownDate = GetDateElement(GetDate(), 5);
         }
         else if (DateDropdown.value == 6)
         {
-            todayDate = GetDateElement(GetDates(), 6);
+            DropdownDate = GetDateElement(GetDate(), 6);
         }
     }
+
+    public void WeatherChange()
+    {
+        //Debug.Log("weatherChanged");
+        string DropdownDate = GetDropdownDate();
+        if (cityName.Equals("Hakodate"))
+        {
+            Debug.Log("HakodateWeather");
+            SetWeatherStrength(csvReader.GetHakodateWeather(), DropdownDate, rainParticle, snowParticle);
+        }
+        else if (cityName.Equals("Tokyo"))
+        {
+            Debug.Log("TokyoWeather");
+            SetWeatherStrength(csvReader.GetTokyoWeather(), DropdownDate, rainParticle, snowParticle);
+        }
+        else if (cityName.Equals("Osaka"))
+        {
+            Debug.Log("OsakaWeather");
+            SetWeatherStrength(csvReader.GetTokyoWeather(), DropdownDate, rainParticle, snowParticle);
+        }
+        else if (cityName.Equals("Sapporo"))
+        {
+            Debug.Log("SapporoWeather");
+            SetWeatherStrength(csvReader.GetSapporoWeather(), DropdownDate, rainParticle, snowParticle);
+        }
+        else if (cityName.Equals("Yokohama"))
+        {
+            Debug.Log("YokohamaWeather");
+            SetWeatherStrength(csvReader.GetYokohamaWeather(), DropdownDate, rainParticle, snowParticle);
+        }
+    }
+
+    /**/
+    public void SetWeatherStrength(BaseWeather[] baseWeather, string DropdownDate, ParticleSystem rainParticle, ParticleSystem snowParticle)
+    {
+        for (int i = 0; i < baseWeather.Length; i++)
+        {
+            Debug.Log("DropdownDate:" + DropdownDate);
+            Debug.Log("baseWeather:" + baseWeather[i].GetDate());
+            
+            if (DropdownDate.Equals(baseWeather[i].GetDate())){
+                Debug.Log(baseWeather[i].GetWeather().Equals("雨"));
+                if (baseWeather[i].GetWeather().Equals("雨"))
+                {
+                    Debug.Log("雨");
+                    weatherController.ChangeRainStrength(baseWeather[i].GetFallAmount(), rainParticle);
+
+                    //天気が雨なら雪のパーティクルを止めて、雨のパーティクルを開始させて雨を降らせる
+                    weatherController.RainWeather(rainParticle, snowParticle);
+                }
+                else if (baseWeather[i].GetWeather().Equals("雪"))
+                {
+                    Debug.Log("雪");
+                    weatherController.ChangeSnowStrength(baseWeather[i].GetFallAmount(), snowParticle);
+
+                    //天気が雪なら雨のパーティクルを止めて、雪のパーティクルを開始させて雪を降らせる
+                    weatherController.SnowWeather(rainParticle, snowParticle);
+                }
+                else
+                {
+                    Debug.Log("その他");
+                    //天気が雨でも雪でもないなら雨と雪のパーティクルを止める
+                    weatherController.OtherWeather(rainParticle, snowParticle);
+                }
+
+                break;
+            }
+        }
+    }
+
+
+
 }
