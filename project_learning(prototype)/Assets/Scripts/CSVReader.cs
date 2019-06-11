@@ -29,17 +29,7 @@ public class CSVReader
     {
         return baseWeather;
     }
-
-    /*public void setBaseWeather(BaseWeather[] baseWeather)
-    {
-        
-    }*/
-
-    /*public void SetBaseWeather(BaseWeather[] weather, int dataNum)
-    {
-        weather = new BaseWeather[dataNum];
-    }*/
-
+   
     //コンストラクタ
     public CSVReader()
     {
@@ -62,70 +52,43 @@ public class CSVReader
         YokohamaWeather = SetBaseWeather(Yokohama);
     }
 
+    //ゲッター
+    public int GetDataNum()
+    {
+        return this.dataNum;
+    }
+
+    //ゲッター
     public BaseWeather[] GetHakodateWeather()
     {
         return this.HakodateWeather;
     }
 
+    //ゲッター
     public BaseWeather[] GetTokyoWeather()
     {
         return this.TokyoWeather;
     }
 
+    //ゲッター
     public BaseWeather[] GetOsakaWeather()
     {
         return this.OsakaWeather;
     }
 
+    //ゲッター
     public BaseWeather[] GetSapporoWeather()
     {
         return this.SapporoWeather;
     }
 
+    //ゲッター
     public BaseWeather[] GetYokohamaWeather()
     {
         return this.YokohamaWeather;
     }
 
-    //BaseWeather [] baseWeather;
-    //BaseWeather weatehr;
-
-    // Start is called before the first frame update
-    /*void Start()
-    {
-        //this.encoding = Encoding.GetEncoding("utf-8");
-
-        HakodateWeather = new BaseWeather[dataNum];
-        TokyoWeather = new BaseWeather[dataNum];
-        OsakaWeather = new BaseWeather[dataNum];
-        SapporoWeather = new BaseWeather[dataNum];
-        YokohamaWeather = new BaseWeather[dataNum];
-
-        Hakodate = CSVRead("HakodateWeatherData");
-        Tokyo = CSVRead("TokyoWeatherData");
-        Osaka = CSVRead("OsakaWeatherData");
-        Sapporo = CSVRead("SapporoWeatherData");
-        Yokohama = CSVRead("YokohamaWeatherData");
-
-        HakodateWeather = SetBaseWeather(Hakodate);
-        TokyoWeather = SetBaseWeather(Tokyo);
-        OsakaWeather = SetBaseWeather(Osaka);
-        SapporoWeather = SetBaseWeather(Sapporo);
-        YokohamaWeather = SetBaseWeather(Yokohama);
-
-        ShowBaseWeatherData(HakodateWeather, "函館市");
-        ShowBaseWeatherData(TokyoWeather, "東京都");
-        ShowBaseWeatherData(OsakaWeather, "大阪府");
-        ShowBaseWeatherData(SapporoWeather, "札幌市");
-        ShowBaseWeatherData(YokohamaWeather, "横浜市");
-    }*/
-
-    /*public void SetCSVData()
-    {
-
-    }*/
-
-    //CSVファイルを読み込む
+    //CSVファイルを読み込むんで返す
     public List<string[]> CSVRead(string fileName)
     {
         TextAsset csvFile;  //csvファイル
@@ -156,9 +119,10 @@ public class CSVReader
         }
     }
 
+    //CSVファイルで読み込んだデータをBaseWeather型の配列に格納して返す
     public BaseWeather[] SetBaseWeather(List<string[]> csvDatas)
     {
-        BaseWeather [] baseWeather = new BaseWeather[7];
+        BaseWeather [] baseWeather = new BaseWeather[GetDataNum()];
         for (int i = 0; i < baseWeather.Length; i++)
         {
             baseWeather[i] = new BaseWeather(csvDatas[i + 1][0], csvDatas[i + 1][1], float.Parse(csvDatas[i + 1][2]), float.Parse(csvDatas[i + 1][3]));
@@ -167,6 +131,7 @@ public class CSVReader
         return baseWeather;
     }
 
+    //BaseWeather型の配列に格納した値をコンソールに表示する
     public void ShowBaseWeatherData(BaseWeather[] baseWeather, string cityName)
     {
         Debug.Log(cityName + "のデータ");

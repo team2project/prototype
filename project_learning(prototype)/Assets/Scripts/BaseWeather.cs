@@ -7,16 +7,10 @@ public class BaseWeather
 {
     private string date;                     //日付を管理する
     private string weather;                  //天気を管理する
-    private float fallAmount;                  //降水量を管理する
-    private float windStrength;               //風速を管理する
+    private float fallAmount;                //降水量を管理する
+    private float windStrength;              //風速を管理する
 
     //コンストラクタ
-    /*public BaseWeather(string weather, int fallAmount)
-    {
-        this.weather = weather;
-        //this.fallAmount = fallAmount;
-    }*/
-
     public BaseWeather(string date, string weather)
     {
         this.date = date;
@@ -32,25 +26,30 @@ public class BaseWeather
         this.windStrength = windStrength;
     }
 
+    //ゲッター
     public string GetDate()
     {
         return this.date;
     }
 
+    //ゲッター
     public string GetWeather()
     {
         return this.weather;
     }
 
+    //ゲッター
     public float GetFallAmount()
     {
         return this.fallAmount;
     }
 
+    //ゲッター
     public float GetWindStrength()
     {
         return windStrength;
     }
+
     // Start is called before the first frame update
     /*void Start()
     {

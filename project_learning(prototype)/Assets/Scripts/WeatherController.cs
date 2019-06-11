@@ -5,39 +5,34 @@ using UnityEngine;
 //public class WeatherController : MonoBehaviour
 public class WeatherController
 {
-    //private CSVReader csvReader;
-    
-    //public ParticleSystem rainParticle;    //雨のParticleSystemを管理
-    //public ParticleSystem snowParticle;    //雪のParticleSystemを管理
-
-    // Start is called before the first frame update
-    /*void Start()
-    {
-        //csvReader= new CSVReader();
-    }*/
-
+    //降水量から雨,雪の強さを決定する
     private float CalculateRateOverTime(float fallAmount)
     {
         //仮に設定(ここに降水量から雨の強さを決める式を定義する)
         return fallAmount * 90;
     }
 
+    //CalculateRateOverTimeで計算した雨の強さをrainParticleに反映
     public void ChangeRainStrength(float rainStrength, ParticleSystem rainParticle)
     {
+        //ParticleSystemのrateOverTimeを設定するために使用
         ParticleSystem.EmissionModule emission = rainParticle.emission;
         
         //emission.rateOverTimeで雨の強さを変える
         emission.rateOverTime = CalculateRateOverTime(rainStrength);
     }
 
+    //CalculateRateOverTimeで計算した雪の強さをsnowParticleに反映
     public void ChangeSnowStrength(float snowStrength, ParticleSystem snowParticle)
     {
+        //ParticleSystemのrateOverTimeを設定するために使用
         ParticleSystem.EmissionModule emission = snowParticle.emission;
 
         //emission.rateOverTimeで雪の強さを変える
         emission.rateOverTime = CalculateRateOverTime(snowStrength);
     }
 
+    //天気を雨にする
     public void RainWeather(ParticleSystem rainParticle, ParticleSystem snowParticle)
     {
         rainParticle.Play();
@@ -45,6 +40,7 @@ public class WeatherController
         snowParticle.Clear();
     }
 
+    //天気を雪にする
     public void SnowWeather(ParticleSystem rainParticle, ParticleSystem snowParticle)
     {
         snowParticle.Play();
@@ -52,6 +48,7 @@ public class WeatherController
         rainParticle.Clear();
     }
 
+    //天気をその他(雨,雪以外)にする
     public void OtherWeather(ParticleSystem rainParticle, ParticleSystem snowParticle)
     {
         rainParticle.Stop();
@@ -59,45 +56,5 @@ public class WeatherController
         snowParticle.Stop();
         snowParticle.Clear();
     }
-
-    /*public void changeWeather(ParticleSystem rainParticle, ParticleSystem snowParticle, string weather)
-    {
-        if (weather.Equals("雨"))
-            RainWeather(rainParticle, snowParticle);
-        else if (weather.Equals("雪"))
-            SnowWeather(rainParticle, snowParticle);
-        else
-            OtherWeather(rainParticle, snowParticle);
-    }*/
-
-
-    // Update is called once per frame
-    /*void Update()
-    {
-        //pressButton(rainParticle);
-        dx = Input.GetAxis("Horizontal");
-        dy = Input.GetAxis("Vertical");
-        Camera.main.transform.rotation = Quaternion.Euler(dx, dy, 0);
-        //Camera.main.transform.rotation(dx, dy, 0);
-    }*/
-
-    /*void pressButton(ParticleSystem weatherParticle)
-    {
-        //Pが押されたらパーティクルが作動する
-        if (Input.GetKey(KeyCode.P))
-        {
-            weatherParticle.Play();
-        }
-        //Sが押されたらパーティクルが停止する
-        if (Input.GetKey(KeyCode.S))
-        {
-            weatherParticle.Stop();
-        }
-        //Spaceが押されたら
-        if (Input.GetKey(KeyCode.Space))
-        {
-
-        }
-    }*/
 
 }
