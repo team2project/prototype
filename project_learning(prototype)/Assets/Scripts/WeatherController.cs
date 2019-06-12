@@ -57,4 +57,34 @@ public class WeatherController
         snowParticle.Clear();
     }
 
+    //天気に応じてskyboxを変更する
+    public void ChangeSkybox(Material skybox)
+    {
+        RenderSettings.skybox = skybox;
+    }
+
+    //雨の強さに応じて雨の音を変える
+    public void ChangeRainSound(float rainStrength, AudioSource light_rain, AudioSource rain, AudioSource heavy_rain)
+    {
+        //rainStrengthが降水量(15mm)*90より低ければ
+        if (rainStrength < 15 * 90)
+        {
+            light_rain.Play();
+            rain.Stop();
+            heavy_rain.Stop();
+        }
+        else if (15 * 90 <= rainStrength && rainStrength < 35 * 90)
+        {
+            light_rain.Stop();
+            rain.Play();
+            heavy_rain.Stop();
+        }
+        else
+        {
+            light_rain.Stop();
+            rain.Stop();
+            heavy_rain.Play();
+        }
+            
+    }
 }

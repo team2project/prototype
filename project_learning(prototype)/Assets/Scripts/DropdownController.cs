@@ -17,6 +17,11 @@ public class DropdownController : MonoBehaviour
     public GameObject Osaka;
     public GameObject Sapporo;
     public GameObject Yokohama;
+    public Material SunnySkybox;
+    public Material CloudSkybox;
+    /*public AudioClip light_rain_loop;
+    public AudioClip rain_loop;
+    public AudioClip heavy_rain_loop;*/
 
     private int Dateyear;                         　　//DateDropdownを決める際に使用する年
     private int Datemonth;                        　　//DateDropdownを決める際に使用する月
@@ -29,6 +34,9 @@ public class DropdownController : MonoBehaviour
     private string cityName;                      　　//現在選択されている都市の名前
     private List<string> Date = new List<string>();   //CSVファイルのデータと比較するためのリスト
     private string[] cityNames = {"Hakodate","Tokyo", "Osaka", "Sapporo", "Yokohama"};  //都市名のデータ
+    /*private AudioSource light_rain;
+    private AudioSource rain;
+    private AudioSource heavy_rain;*/
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +50,7 @@ public class DropdownController : MonoBehaviour
         weatherController = new WeatherController();
         DropdownDate = GetDateElement(GetDate(), 0);  //現在選択されている日付として今日の日付を設定する
         cityName = cityNames[0];                      //現在選択されている都市名として函館を設定する
+        SetInitSkybox(csvReader.GetHakodateWeather());
 
         csvReader.ShowBaseWeatherData(csvReader.GetHakodateWeather(), "函館市");
         csvReader.ShowBaseWeatherData(csvReader.GetTokyoWeather(), "東京都");
@@ -73,6 +82,34 @@ public class DropdownController : MonoBehaviour
     {
         return this.DropdownDate;
     }
+
+    //ゲッター
+    public AudioSource GetAudioSource(AudioSource audioSource)
+    {
+        return audioSource;
+    }
+
+    //スカイボックスの初期化
+    public void SetInitSkybox(BaseWeather[] baseWeather)
+    {
+        string weather;
+        weather = baseWeather[0].GetWeather();
+        if (weather.Equals("雨") || weather.Equals("雪") || weather.Equals("曇"))
+        {
+            weatherController.ChangeSkybox(CloudSkybox);
+        }
+        else
+        {
+            weatherController.ChangeSkybox(SunnySkybox);
+        }
+    }
+
+    /*public void SetRainSound()
+    {
+        GetAudioSource(light_rain).clip = light_rain_loop;
+        GetAudioSource(rain).clip = rain_loop;
+        GetAudioSource(heavy_rain).clip = heavy_rain_loop;
+    }*/
 
     //WeatherDropdownで選択されている天気をフィールド上で動作させる
     /*public void OnWeatherChanged()
@@ -285,19 +322,40 @@ public class DropdownController : MonoBehaviour
                 {
                     weatherController.ChangeRainStrength(baseWeather[i].GetFallAmount(), rainParticle);
 
-                    //天気が雨なら雪のパーティクルを止めて、雨のパーティクルを開始させて雨を降らせる
+                    //降水量に応じた雨の音を再生
+                    //weatherController.ChangeRainSound(baseWeather[i].GetFallAmount(), light_rain, rain, heavy_rain);
+
+                    //天気が"雨"なら空を曇の空にする
+                    weatherController.ChangeSkybox(CloudSkybox);
+
+                    //天気が"雨"なら雪のパーティクルを止めて、雨のパーティクルを開始させて雨を降らせる
                     weatherController.RainWeather(rainParticle, snowParticle);
                 }
                 else if (baseWeather[i].GetWeather().Equals("雪"))
                 {
                     weatherController.ChangeSnowStrength(baseWeather[i].GetFallAmount(), snowParticle);
 
-                    //天気が雪なら雨のパーティクルを止めて、雪のパーティクルを開始させて雪を降らせる
+                    //天気が"雪"なら空を曇の空にする
+                    weatherController.ChangeSkybox(CloudSkybox);
+
+                    //天気が"雪"なら雨のパーティクルを止めて、雪のパーティクルを開始させて雪を降らせる
                     weatherController.SnowWeather(rainParticle, snowParticle);
                 }
+                else if (baseWeather[i].GetWeather().Equals("曇"))
+                {
+                    //天気が"曇"なら空を曇の空にする
+                    weatherController.ChangeSkybox(CloudSkybox);
+
+                    //天気が"雨"でも"雪"でもないなら雨と雪のパーティクルを止める
+                    weatherController.OtherWeather(rainParticle, snowParticle);
+                }
+
                 else
                 {
-                    //天気が雨でも雪でもないなら雨と雪のパーティクルを止める
+                    //天気が"雨"でも"雪"でもないなら空を晴の空にする
+                    weatherController.ChangeSkybox(SunnySkybox);
+
+                    //天気が"雨"でも"雪"でもないなら雨と雪のパーティクルを止める
                     weatherController.OtherWeather(rainParticle, snowParticle);
                 }
 

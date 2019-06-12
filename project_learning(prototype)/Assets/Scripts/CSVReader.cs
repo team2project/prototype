@@ -7,7 +7,6 @@ using System.IO;
 //public class CSVReader : MonoBehaviour
 public class CSVReader
 {
-    //TextAsset csvFile;  //csvファイル
     private int dataNum = 7;  //csvファイルのデータの数
     private List<string[]> Hakodate = new List<string[]>();  //函館の天気を入れるリスト
     private List<string[]> Tokyo = new List<string[]>();     //東京の天気を入れるリスト
@@ -88,7 +87,7 @@ public class CSVReader
         return this.YokohamaWeather;
     }
 
-    //CSVファイルを読み込むんで返す
+    //CSVファイルを読み込んで返す
     public List<string[]> CSVRead(string fileName)
     {
         TextAsset csvFile;  //csvファイル
